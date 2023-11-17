@@ -23,5 +23,7 @@ namespace Purcel_Tiberiu_Lab2.Models
 		public  int? PublisherID { get; set; }
 		public Publisher? Publisher { get; set; }
 
+		public ICollection<BookCategory>? BookCategories { get; set; }
+
 	}
 }
