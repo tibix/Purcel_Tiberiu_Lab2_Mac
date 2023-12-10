@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Purcel_Tiberiu_Lab2.Data;
 
@@ -10,35 +11,14 @@ using Purcel_Tiberiu_Lab2.Data;
 namespace Purcel_Tiberiu_Lab2.Migrations
 {
     [DbContext(typeof(BooksDBContext))]
-    partial class BooksDBContextModelSnapshot : ModelSnapshot
+    [Migration("20231209204553_AtuhorFullName")]
+    partial class AtuhorFullName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
-
-            modelBuilder.Entity("Purcel_Tiberiu_Lab2.Models.AssignedCategoryData", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("Assigned")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("CategoryID");
-
-                    b.ToTable("AssignedCategoryData");
-                });
 
             modelBuilder.Entity("Purcel_Tiberiu_Lab2.Models.Author", b =>
                 {
@@ -141,15 +121,6 @@ namespace Purcel_Tiberiu_Lab2.Migrations
                     b.ToTable("Publisher");
                 });
 
-            modelBuilder.Entity("Purcel_Tiberiu_Lab2.Models.AssignedCategoryData", b =>
-                {
-                    b.HasOne("Purcel_Tiberiu_Lab2.Models.Category", null)
-                        .WithMany("AssignedCategories")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Purcel_Tiberiu_Lab2.Models.Book", b =>
                 {
                     b.HasOne("Purcel_Tiberiu_Lab2.Models.Author", "Author")
@@ -196,8 +167,6 @@ namespace Purcel_Tiberiu_Lab2.Migrations
 
             modelBuilder.Entity("Purcel_Tiberiu_Lab2.Models.Category", b =>
                 {
-                    b.Navigation("AssignedCategories");
-
                     b.Navigation("BookCategories");
                 });
 

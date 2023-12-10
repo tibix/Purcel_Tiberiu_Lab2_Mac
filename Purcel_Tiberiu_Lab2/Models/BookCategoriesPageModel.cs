@@ -4,15 +4,15 @@ using Purcel_Tiberiu_Lab2.Data;
 
 namespace Purcel_Tiberiu_Lab2.Models
 {
-	public class BookCategoriesPageModel:PageModel
-	{
+    public class BookCategoriesPageModel : PageModel
+    {
         public List<AssignedCategoryData> AssignedCategoryDataList;
-        public void PopulateAssignedCategoryData(BooksDBContext context,
-        Book book)
+
+        public void PopulateAssignedCategoryData(BooksDBContext context, Book book)
         {
             var allCategories = context.Category;
             var bookCategories = new HashSet<int>(
-            book.BookCategories.Select(c => c.CategoryID)); //
+                book.BookCategories.Select(c => c.CategoryID)); //
             AssignedCategoryDataList = new List<AssignedCategoryData>();
             foreach (var cat in allCategories)
             {
@@ -25,16 +25,18 @@ namespace Purcel_Tiberiu_Lab2.Models
             }
         }
 
-        public void UpdateBookCategories(BooksDBContext context,string[] selectedCategories, Book bookToUpdate)
+        public void UpdateBookCategories(BooksDBContext context,
+            string[] selectedCategories, Book bookToUpdate)
         {
             if (selectedCategories == null)
             {
                 bookToUpdate.BookCategories = new List<BookCategory>();
                 return;
             }
+
             var selectedCategoriesHS = new HashSet<string>(selectedCategories);
             var bookCategories = new HashSet<int>
-            (bookToUpdate.BookCategories.Select(c => c.Category.ID));
+                (bookToUpdate.BookCategories.Select(c => c.Category.ID));
             foreach (var cat in context.Category)
             {
                 if (selectedCategoriesHS.Contains(cat.ID.ToString()))
@@ -42,11 +44,11 @@ namespace Purcel_Tiberiu_Lab2.Models
                     if (!bookCategories.Contains(cat.ID))
                     {
                         bookToUpdate.BookCategories.Add(
-                        new BookCategory
-                        {
-                            BookID = bookToUpdate.ID,
-                            CategoryID = cat.ID
-                        });
+                            new BookCategory
+                            {
+                                BookID = bookToUpdate.ID,
+                                CategoryID = cat.ID
+                            });
                     }
                 }
                 else
@@ -54,7 +56,8 @@ namespace Purcel_Tiberiu_Lab2.Models
                     if (bookCategories.Contains(cat.ID))
                     {
                         BookCategory courseToRemove
-                        = bookToUpdate.BookCategories.SingleOrDefault(i => i.CategoryID == cat.ID);
+                            = bookToUpdate.BookCategories
+                                            .SingleOrDefault(i => i.Category.ID == cat.ID);
                         context.Remove(courseToRemove);
                     }
                 }
